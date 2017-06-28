@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: php-fpm
+  name: php-fpm
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: php-fpm
+    spec:
+      containers:
+      - image: gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
+        name: php-fpm
+        ports:
+        - containerPort: 9000
+        resources: {}
+      restartPolicy: Always
+status: {}
