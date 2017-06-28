@@ -1,2 +1,4 @@
 FROM nginx
-COPY ./html /usr/share/nginx/html
+
+ADD ./vhost.conf /etc/nginx/conf.d/default.conf
+WORKDIR /var/www

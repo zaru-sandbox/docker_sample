@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+
+  php-fpm:
+    build: ./php
+    # volumes:
+      # - ./www:/var/www
+    ports:
+      - "9000"
+
+  nginx:
+    build: .
+    # volumes:
+      # - ./www:/var/www
+    ports:
+      - "80:80"
+    links:
+        - php-fpm
+    labels:
+      kompose.service.type: LoadBalancer
