@@ -98,3 +98,17 @@ export TAG=2
 docker build -t gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG} -f ./php/Dockerfile .
 kubectl set image deployment/combine php-sample=gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
 ```
+
+### kubectl get all sample
+
+```
+NAME                        READY     STATUS    RESTARTS   AGE
+po/combine-54602166-x111w   2/2       Running   0          9m
+
+NAME             CLUSTER-IP      EXTERNAL-IP    PORT(S)        AGE
+svc/combine      10.23.248.164   35.189.155.7   80:32306/TCP   20m
+svc/kubernetes   10.23.240.1     <none>         443/TCP        23m
+
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/combine   1         1         1            1           15m
+```
