@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.service.type: LoadBalancer
+  creationTimestamp: null
+  labels:
+    io.kompose.service: combine
+  name: combine
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: combine
+    spec:
+      # MEMO: このボリュームはnginx/php-fpmで共通です
+      # Podが消えると、このボリュームも消えます。つまり、set imageすると破棄されます。
+      volumes:
+      - name: www-volume
+        hostPath:
+          path: /var/www
+
+      containers:
+      - image: gcr.io/${PROJECT_ID}/${IMAGE_NGINX}:${TAG}
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}
+        volumeMounts:
+        - mountPath: /www
+          name: www-volume
+
+      - image: gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
+        name: php-fpm
+        ports:
+        - containerPort: 9000
+        resources: {}
+        volumeMounts:
+        - mountPath: /www
+          name: www-volume
+
+      restartPolicy: Always
+status: {}
