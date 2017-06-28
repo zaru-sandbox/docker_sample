@@ -16,11 +16,19 @@ spec:
       labels:
         io.kompose.service: nginx
     spec:
+      # MEMO: このボリュームはnginxPod専用のボリュームであり、php-fpmと同じではありません
+      volumes:
+      - name: www-volume
+        hostPath:
+          path: /var/www
       containers:
       - image: gcr.io/${PROJECT_ID}/${IMAGE_NGINX}:${TAG}
         name: nginx
         ports:
         - containerPort: 80
         resources: {}
+        volumeMounts:
+        - mountPath: /www
+          name: www-volume
       restartPolicy: Always
 status: {}

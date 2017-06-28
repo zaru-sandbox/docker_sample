@@ -14,11 +14,18 @@ spec:
       labels:
         io.kompose.service: php-fpm
     spec:
+      volumes:
+      - name: www-volume
+        hostPath:
+          path: /var/www
       containers:
       - image: gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
         name: php-fpm
         ports:
         - containerPort: 9000
         resources: {}
+        volumeMounts:
+        - mountPath: /www
+          name: www-volume
       restartPolicy: Always
 status: {}
