@@ -29,6 +29,8 @@ envsubst < php-fpm-deployment.yaml | kubectl create -f -
 ```
 export TAG=2
 docker build -t gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG} -f ./php/Dockerfile .
+gcloud docker -- push gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
+
 kubectl set image deployment/php-fpm php-sample=gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
 ```
 
