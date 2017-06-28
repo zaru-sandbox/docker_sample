@@ -63,3 +63,38 @@ NAME                      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 deploy/nginx              1         1         1            1           14m
 deploy/php-fpm            1         1         1            1           16m
 ```
+
+---
+
+## Same Pod pattern
+
+```
+envsubst < combine-deployment.yaml | kubectl create -f -
+envsubst < combine-service.yaml | kubectl create -f -
+```
+
+### Show container log
+
+```
+kubectl po/<POD_NAME> nginx
+kubectl po/<POD_NAME> php-fpm
+```
+
+### Log in to specific container in Pod
+
+```
+kubectl exec -it <POD_NAME> -c nginx bash
+kubectl exec -it <POD_NAME> -c php-fpm bash
+```
+
+### RollingUpdate
+
+No different to split pattern.
+
+You can update it on specific container in Pod, but Pod will be teminated.
+
+```
+export TAG=2
+docker build -t gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG} -f ./php/Dockerfile .
+kubectl set image deployment/combine php-sample=gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
+```
