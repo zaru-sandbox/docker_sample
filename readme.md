@@ -24,6 +24,13 @@ envsubst < nginx-deployment.yaml | kubectl create -f -
 envsubst < php-fpm-deployment.yaml | kubectl create -f -
 ```
 
+### Update deployment
+
+```
+envsubst < nginx-deployment.yaml | kubectl replace -f -
+envsubst < php-fpm-deployment.yaml | kubectl replace -f -
+```
+
 ### RollingUpdate
 
 ```
@@ -32,6 +39,12 @@ docker build -t gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG} -f ./php/Dockerfile .
 gcloud docker -- push gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
 
 kubectl set image deployment/php-fpm php-sample=gcr.io/${PROJECT_ID}/${IMAGE_PHP}:${TAG}
+```
+
+### Login to Pod
+
+```
+kubectl exec -it <POD_NAME> bash
 ```
 
 ### kubectl get all sample
